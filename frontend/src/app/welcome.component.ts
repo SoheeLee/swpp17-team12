@@ -13,8 +13,6 @@ import {User} from "./model/user";
 export class WelcomeComponent implements OnInit {
   signin_info: any = {};
   signup_info: any = {};
-  signin_response = 0;
-  signup_response = 0;
   constructor(
     private router : Router,
     private userService : UserService) {}
@@ -24,12 +22,29 @@ export class WelcomeComponent implements OnInit {
   signin() {
     this.userService
       .signin(this.signin_info.username, this.signin_info.password)
-      .then(response => this.signin_response = response);
+      .then(status => {
+        if (status == 200) {
+          this.router.navigate(['/main']);
+        }
+        else if (status == 401) {
+          alert("Incorrect username or password.");
+        }
+        else {
+          alert("HttpResponse: " + status);
+        }
+      });
   }
 
   signup() {
     this.userService
       .signup(this.signup_info.username, this.signup_info.email, this.signup_info.password)
-      .then(response => this.signup_info = response);
+      .then(status => {
+        if (status == 201) {
+          alert("You are successfully signed up!. Welcome. Please login.")
+        }
+        else {
+          alert("HttpResponse: " + status);
+        }
+      });
   }
 }

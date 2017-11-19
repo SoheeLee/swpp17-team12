@@ -10,6 +10,11 @@ import {User} from "./model/user";
   styleUrls: ['./main.component.css'],
 })
 
-export class MainComponent {
+export class MainComponent implements OnInit {
+  constructor(
+    private router : Router,
+    private userService : UserService) {}
+
+  ngOnInit(): void {}
 
 }
